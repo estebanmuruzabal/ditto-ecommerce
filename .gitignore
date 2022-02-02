@@ -1,0 +1,13 @@
+node_modules/
+server/build/
+.idea/
+.env
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.git-old
+build
+dist
+.next
+server/images/

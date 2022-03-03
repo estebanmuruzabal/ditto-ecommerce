@@ -6,7 +6,7 @@ import Types from './types.type';
 export class TypesResolver {
   private readonly items: Types[] = loadCoupons();
 
-  @Query(() => [Types], { description: 'Get all the types' })
+  @Query(() => [Types], { description: 'Get all the coupon' })
   async types(): Promise<Types[]> {
     return await this.items;
   }

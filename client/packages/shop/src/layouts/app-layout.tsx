@@ -53,6 +53,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
   const isHomeHandler = (typedata: any, type: any) =>{
     if(typedata){
+      console.log("HEREEEE", typedata.types)
       typedata.types.items.map((item: any, index: any) => {
         newTypeArry.push(item.slug)
       })

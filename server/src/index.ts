@@ -11,7 +11,7 @@ import path from "path";
 const mount = async (app: Application) => {
     // mongodb connection
     const db = await connectDatabase();
-
+    console.log(db)
     // apollo server
     const server = new ApolloServer({
         typeDefs,

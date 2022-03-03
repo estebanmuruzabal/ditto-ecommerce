@@ -4,17 +4,16 @@ import {Database} from "../lib/types";
 require("dotenv").config();
 
 let url: string;
-const dbName = process.env.DB_NAME;
+const dbName = "dittodb";
+const dbUserName = process.env.DB_USER;
 // @ts-ignore
 const dbPassword: string = process.env.DB_USER_PASSWORD;
 
-
+    console.log(process.env.APP_ENV)
 if (process.env.APP_ENV == 'production') {
-    url = `mongodb+srv://${process.env.DB_USER}:${
-        process.env.DB_USER_PASSWORD
-    }@${process.env.DB_CLUSTER}.mongodb.net`;
+    url = `mongodb+srv://${dbUserName}:${dbPassword}@${process.env.DB_CLUSTER}.mongodb.net/dittodb`;
 } else if (process.env.APP_ENV == 'server') {
-    url = `mongodb://${process.env.DB_USER}:${encodeURIComponent(dbPassword)}@${process.env.DB_CLUSTER}:27017/?authMechanism=DEFAULT&authSource=admin&ssl=false`;
+    url = `mongodb://${dbUserName}:${encodeURIComponent(dbPassword)}@${process.env.DB_CLUSTER}:27017/?authMechanism=DEFAULT&authSource=admin&ssl=false`;
 } else if (process.env.APP_ENV == 'local') {
     url = <string>process.env.DB_URL;
 }
@@ -22,7 +21,7 @@ if (process.env.APP_ENV == 'production') {
 
 export const connectDatabase = async (): Promise<Database> => {
     console.log("[mongodb]: Starting db init...")
-
+    console.log(url)
     const client = await MongoClient.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -31,8 +30,7 @@ export const connectDatabase = async (): Promise<Database> => {
     console.log("[mongodb]: Connected successfully to database");
 
     const db = client.db(dbName);
-
-    return {
+    const allCollections = {
         users: db.collection('users'),
         types: db.collection('types'),
         categories: db.collection('categories'),
@@ -44,5 +42,8 @@ export const connectDatabase = async (): Promise<Database> => {
         settings: db.collection('settings'),
         coupons: db.collection('coupons'),
         home_cards: db.collection('home_cards'),
-    }
+    };
+
+    console.log('allCollections:', client.db(dbName))
+    return allCollections;
 };

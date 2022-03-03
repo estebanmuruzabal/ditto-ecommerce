@@ -1,8 +1,12 @@
 import gql from 'graphql-tag';
 
+/* query getCategories($searchText: String, $offset: Int) {
+  categories(searchText: $searchText, offset: $offset) {
+{limit, offset, searchText}: ICommonPaginationArgs,
+ */
 export const GET_TYPE= gql`
-  query Types($searchText: String) {
-    types(searchText: $searchText) {
+  query Types {
+    types {
       totalCount
         items{
           id

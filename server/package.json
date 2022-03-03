@@ -14,7 +14,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.merge": "^4.6.2",
     "mongodb": "^3.6.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

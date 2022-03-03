@@ -65,6 +65,7 @@ const AddCampaing: React.FC<Props> = props => {
   React.useEffect(() => {
     register({ name: 'category' });
   }, [register]);
+
   const [createCoupon] = useMutation(CREATE_COUPON, {
     update(cache, { data: { createCoupon } }) {
       const { coupons } = cache.readQuery({

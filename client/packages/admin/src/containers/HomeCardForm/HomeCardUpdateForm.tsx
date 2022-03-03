@@ -127,8 +127,6 @@ const UpdateHomeCard: React.FC<Props> = props => {
 
   const onSubmit = ({ name, url, image, image_data, types }) => {
 
-    console.log(types)
-
     updateHomeCard({
       variables: {
         id: itemData.id,

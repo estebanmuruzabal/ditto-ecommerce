@@ -81,6 +81,7 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
     );
   };
   const typeMenu = data.types.items.map((item) => {
+    console.log(data)
     return({
       id: item.id,
       href: `/${item.slug}`,
@@ -91,12 +92,13 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
   })
   const initialMenu = typeMenu.find(
     (item) => item.href == router.asPath);
-  /*if(initialMenu){
+  
+  if(initialMenu){
     if(localStorage.getItem('myMenu')){
       localStorage.removeItem('myMenu');
     }
     localStorage.setItem('myMenu', JSON.stringify(initialMenu));
-  }*/
+  }
 
   const [activeMenu, setActiveMenu] = React.useState(
     initialMenu ?? CATEGORY_MENU_ITEMS[0]

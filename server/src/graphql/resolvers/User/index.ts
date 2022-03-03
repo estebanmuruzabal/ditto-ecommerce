@@ -106,8 +106,12 @@ export const usersResolvers: IResolvers = {
                 throw new Error("User already registered.");
             }
 
-            if (!phone ||!password || password.length < 6) {
+            if (!phone ||!password) {
                 throw new Error("Every field is required");
+            }
+
+            if (password.length < 6) {
+                throw new Error("Incorrect length");
             }
 
             const otp = generateOTPCode();
@@ -156,9 +160,9 @@ export const usersResolvers: IResolvers = {
                     return userPhone
                 }
             });
-            if (!phoneObject[0].status) {
+            /* if (!phoneObject[0].status) {
                 throw new Error("Phone number dose not verified. Please verify your phone number.")
-            }
+            } */
 
             return {
                 user: userResult,

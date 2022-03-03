@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+/* import { useMemo } from 'react'; */
 //import { ApolloClient } from 'apollo-client';
 //import { InMemoryCache } from 'apollo-cache-inmemory';
 //import { HttpLink, createHttpLink } from 'apollo-link-http';
 //import { setContext } from 'apollo-link-context';
-
+/* 
 import {
   ApolloClient,
   HttpLink,
@@ -40,7 +40,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 const client = new ApolloClient({
   link: authMiddleware.concat(httpLink),
   cache: new InMemoryCache(),
-});
+}); */
 
 /*
 console.log(process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT);
@@ -66,7 +66,7 @@ function createApolloClient() {
   });
 }*/
 
-export function initializeApollo(initialState = null) {
+/* export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? client;
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
@@ -85,9 +85,9 @@ export function initializeApollo(initialState = null) {
 export function useApollo(initialState) {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
-}
+} */
 
-/*
+
 
 import { useMemo } from 'react';
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from 'apollo-boost';
@@ -147,4 +147,4 @@ export function useApollo(initialState) {
 }
 
 
-*/
+

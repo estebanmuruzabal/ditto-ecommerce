@@ -72,6 +72,7 @@ export default () => {
       history.replace(from);
     });
   };
+  console.log(error)
   return (
     <Wrapper>
       <FormWrapper>

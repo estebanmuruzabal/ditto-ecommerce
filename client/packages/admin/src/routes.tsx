@@ -188,13 +188,13 @@ const Routes = () => {
               </Suspense>
             </AdminLayout>
           </PrivateRoute>
-          <PrivateRoute path={SITE_SETTINGS}>
+          <Route path={SITE_SETTINGS}>
             <AdminLayout>
               <Suspense fallback={<InLineLoader />}>
                 <SiteSettingForm />
               </Suspense>
             </AdminLayout>
-          </PrivateRoute>
+          </Route>
 
           <Route path={LOGIN}>
             <Login />

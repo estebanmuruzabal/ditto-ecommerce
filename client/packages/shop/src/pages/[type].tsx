@@ -150,20 +150,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 export async function getStaticPaths() {
 
   const apolloClient = initializeApollo();
- /*  const res = await apolloClient.query({
+  const res = await apolloClient.query({
     query: GET_TYPE,
     variables: {
       searchText: ''
     }
   });
- */
-  const paths = [{
-    id: 'item.id',
-    href: `/slag`,
-    defaultMessage: 'item.name',
-    icon: 'item.icon',
-    dynamic: true,
-  }]
+  console.log(res)
+  const paths = res.data.types.items.map((item) => {
+    return({
+      params: { type: item.slug },
+    })
+  })
 
   return {
     paths,

@@ -88,20 +88,23 @@ export const AUTHORIZED_MENU_ITEMS = [
 export async function CATEGORY_MENU() {
 
   const apolloClient = initializeApollo();
-  /* const res = await apolloClient.query({
+  const res = await apolloClient.query({
     query: GET_TYPE,
     variables: {
       searchText: ''
     }
-  }); */
-
-    return([{
-      id: 'item.id',
-      href: `/slag`,
-      defaultMessage: 'item.name',
-      icon: 'item.icon',
+  });
+  
+  const paths = await res.data.types.items.map((item) => {
+    return({
+      id: item.id,
+      href: `/${item.slug}`,
+      defaultMessage: item.name,
+      icon: item.icon,
       dynamic: true,
-    }])
+    })
+  })
+  return paths;
 }
 
 // category menu items for header navigation

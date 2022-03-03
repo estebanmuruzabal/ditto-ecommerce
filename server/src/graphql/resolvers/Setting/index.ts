@@ -24,7 +24,6 @@ export const settingsResolvers: IResolvers = {
             {db, req}: { db: Database, req: Request }
         ): Promise<ISetting> => {
             const siteSetting = await db.settings.findOne({key: key});
-
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const {_id, key: key1, value} = siteSetting;

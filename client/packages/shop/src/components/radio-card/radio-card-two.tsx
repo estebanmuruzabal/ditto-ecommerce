@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 import { CloseIcon } from 'assets/icons/CloseIcon';
 import { PencilIcon } from 'assets/icons/PencilIcon';
+import { useIntl } from 'react-intl';
 
 const CardWrapper = styled.label`
   display: inline-flex;
@@ -162,6 +163,8 @@ const RadioCardTWO: React.FC<RadioCardProps> = ({
   checked,
   onChange,
 }) => {
+
+  const intl = useIntl();
   return (
     <CardWrapper
       htmlFor={`${name}-${id}`}
@@ -179,10 +182,10 @@ const RadioCardTWO: React.FC<RadioCardProps> = ({
         onClick={onClick}
       />
       {title && <CardTitle>{title}</CardTitle>}
-      {address && <CardContent>Address: {address}</CardContent>}
-      {district && <CardContent>District: {district}</CardContent>}
-      {division && <CardContent>Division: {division}</CardContent>}
-      {region && <CardContent>Region: {region}</CardContent>}
+      {address && <CardContent>{intl.formatMessage({ id: 'addressTitleId', defaultMessage: 'Address:' })} {address}</CardContent>}
+      {/* {district && <CardContent>{intl.formatMessage({ id: 'localidadTitleId', defaultMessage: 'Address:' })} {district}</CardContent>} */}
+      {division && <CardContent>{intl.formatMessage({ id: 'localidadTitleId', defaultMessage: 'Address:' })} {division}</CardContent>}
+      {region && <CardContent>{intl.formatMessage({ id: 'provinciaTitleId', defaultMessage: 'Address:' })} {region}</CardContent>}
       {withActionButtons && (
         <CardButtons className='button-wrapper'>
           {hasEdit && (

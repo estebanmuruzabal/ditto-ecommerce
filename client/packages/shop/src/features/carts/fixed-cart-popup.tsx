@@ -5,7 +5,7 @@ import { openModal, closeModal } from '@redq/reuse-modal';
 import FixedCart from './fixed-cart';
 import CartPopupButton from 'components/cart-popup/cart-popup-button';
 import { CURRENCY } from 'utils/constant';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCart } from 'contexts/cart/use-cart';
 
 const CartPopupStyle = createGlobalStyle`
@@ -41,6 +41,7 @@ type CartProps = {
 
 const FixedCartPopup: React.FC<CartProps> = ({ onCheckout }) => {
   const { isOpen, cartItemsCount, toggleCart, calculatePrice } = useCart();
+  const intl = useIntl();
   const handleModal = () => {
     openModal({
       show: true,
@@ -72,6 +73,7 @@ const FixedCartPopup: React.FC<CartProps> = ({ onCheckout }) => {
       <CartPopupButton
         className='fixedCartPopup'
         itemCount={cartItemsCount}
+        btnText={intl.formatMessage({ id: 'buyNowId', defaultMessage: 'Buy now' })}
         itemPostfix={
           cartItemsCount > 1 ? (
             <FormattedMessage id='cartItems' defaultMessage='items' />

@@ -8,7 +8,7 @@ import CartPopupButton, {
 } from 'components/cart-popup/cart-popup-button';
 import { CURRENCY } from 'utils/constant';
 import { CartSlidePopup } from './cart.style';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCart } from 'contexts/cart/use-cart';
 
 const CartPopupStyle = createGlobalStyle`
@@ -44,6 +44,7 @@ const CartPopUp: React.FC<CartProps> = ({
   deviceType: { mobile, tablet, desktop },
 }) => {
   const { isOpen, cartItemsCount, toggleCart, calculatePrice } = useCart();
+  const intl = useIntl();
   const handleModal = () => {
     openModal({
       show: true,
@@ -74,6 +75,7 @@ const CartPopUp: React.FC<CartProps> = ({
           <CartPopupStyle />
           <CartPopupButton
             className='product-cart'
+            btnText={intl.formatMessage({ id: 'buyNowId', defaultMessage: 'Buy now' })}
             itemCount={cartItemsCount}
             itemPostfix={
               cartItemsCount > 1 ? (
@@ -98,6 +100,7 @@ const CartPopUp: React.FC<CartProps> = ({
           <BoxedCartButton
             className='product-cart'
             itemCount={cartItemsCount}
+            btnText={intl.formatMessage({ id: 'buyNowId', defaultMessage: 'Buy now' })}
             itemPostfix={
               cartItemsCount > 1 ? (
                 <FormattedMessage id='cartItems' defaultMessage='items' />

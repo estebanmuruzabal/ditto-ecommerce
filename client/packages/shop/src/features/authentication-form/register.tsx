@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useMutation } from '@apollo/react-hooks';
-
+import es from 'react-phone-input-2/lang/es.json'
 import { Input } from 'components/forms/input';
+
 import {
   Button,
   Wrapper,
@@ -70,10 +71,10 @@ export default function SignOutModal() {
           <FormattedMessage id='signUpBtnText' defaultMessage='Sign Up' />
         </Heading>
         <SubHeading>
-          <FormattedMessage
+          {/* <FormattedMessage
             id='signUpText'
             defaultMessage='Every fill is required in sign up'
-          />
+          /> */}
         </SubHeading>
           <form method="post" onSubmit={
             async (e) => {
@@ -85,16 +86,19 @@ export default function SignOutModal() {
             }
           >
             <PhoneInput
-                inputProps={{
-                  name: 'phone',
-                  required: true,
-                  autoFocus: true
-                }}
-                containerStyle={{textAlign: "left"}}
-                inputStyle={{backgroundColor: "#F7F7F7", height: "48px", marginBottom: "10px", width: "100%"}}
-                country={'bd'}
-                value={phone}
-                onChange={handlePhoneChange}
+              inputProps={{
+                name: 'Numero de telefono',
+                required: true,
+                autoFocus: true
+              }}
+              containerStyle={{textAlign: "left"}}
+              inputStyle={{backgroundColor: "#F7F7F7", height: "48px", marginBottom: "10px", width: "100%"}}
+              onlyCountries={['ar']}
+              localization={es}
+              country={'ar'}
+              masks={{ar: '(...) ...-....'}}
+              value={phone}
+              onChange={handlePhoneChange}
             />
             <Input
               type='password'

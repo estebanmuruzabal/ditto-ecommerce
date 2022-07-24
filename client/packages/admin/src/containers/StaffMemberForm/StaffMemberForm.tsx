@@ -80,7 +80,7 @@ const StaffMemberForm: React.FC<Props> = (props) => {
       role: data.role ? 'admin' : 'staff',
       creation_date: new Date(),
     };
-    console.log(data);
+
     createStaff({ variables: { staff: newStaff } });
     closeDrawer();
   };

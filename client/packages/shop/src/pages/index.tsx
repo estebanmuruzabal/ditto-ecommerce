@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+/* import { useEffect } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
 
@@ -17,8 +17,8 @@ const IndexPage: React.FC<{}> = () => {
 export default IndexPage;
 
 
-
-/*import { useEffect } from 'react';
+ */
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
@@ -53,6 +53,7 @@ const IndexPage: React.FC<{}> = () => {
       href: `/${item.slug}`
     })
   })
+  // if error here, is because you have to add at least one type from admin
   defaultMenu = typeMenu[0].href;
   if(localStorage.getItem('myMenu')){
     selectedMenu = JSON.parse(localStorage.getItem('myMenu'));
@@ -70,4 +71,3 @@ const IndexPage: React.FC<{}> = () => {
 };
 
 export default IndexPage;
-*/

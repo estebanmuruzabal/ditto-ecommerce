@@ -23,7 +23,7 @@ const main = async () => {
   apolloServer.applyMiddleware({ app, path });
 
   app.listen(PORT, () => {
-    console.log('🚀 started http://localhost:4000/graphql');
+    console.log('🚀 started http://192.168.0.104:4000/graphql');
   });
 };
 

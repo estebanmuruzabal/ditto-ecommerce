@@ -29,14 +29,18 @@ import {
   PROFILE_PAGE,
 } from 'site-settings/site-navigation';
 import { useAppState, useAppDispatch } from 'contexts/app/app.provider';
+import { ProfileContext } from 'contexts/profile/profile.context';
 
 const MobileDrawer: React.FunctionComponent = () => {
   const isDrawerOpen = useAppState('isDrawerOpen');
   const dispatch = useAppDispatch();
-  const {
-    authState: { isAuthenticated },
-    authDispatch,
-  } = useContext<any>(AuthContext);
+  const { authState: { isAuthenticated }, authDispatch } = useContext<any>(AuthContext);
+  const { state } = useContext(ProfileContext);
+  console.log(state)
+  if (state) {
+    const { name, phone } = state;
+  }  
+  
   // Toggle drawer
   const toggleHandler = React.useCallback(() => {
     dispatch({
@@ -104,8 +108,7 @@ const MobileDrawer: React.FunctionComponent = () => {
                   <img src={UserImage} alt="user_avatar" />
                 </UserAvatar>
                 <UserDetails>
-                  <h3>David Kinderson</h3>
-                  <span>+990 374 987</span>
+                  
                 </UserDetails>
               </LoginView>
             ) : (

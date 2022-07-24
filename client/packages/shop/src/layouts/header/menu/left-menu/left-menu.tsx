@@ -81,7 +81,6 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
     );
   };
   const typeMenu = data.types.items.map((item) => {
-    console.log(data)
     return({
       id: item.id,
       href: `/${item.slug}`,
@@ -90,8 +89,7 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
       dynamic: true,
     })
   })
-  const initialMenu = typeMenu.find(
-    (item) => item.href == router.asPath);
+  const initialMenu = router.asPath == '/' ? typeMenu[0] : typeMenu.find((item) => item.href == router.asPath);
   
   if(initialMenu){
     if(localStorage.getItem('myMenu')){
@@ -103,10 +101,11 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
   const [activeMenu, setActiveMenu] = React.useState(
     initialMenu ?? CATEGORY_MENU_ITEMS[0]
   );
-  
+  console.log(initialMenu, CATEGORY_MENU_ITEMS)
   return(
     <LeftMenuBox>
       <Logo
+        //@todo fix logo and onclick !!
         imageUrl={logo}
         alt={'Shop Logo'}
         onClick={initialMenu ? initialMenu: CATEGORY_MENU_ITEMS[0]}

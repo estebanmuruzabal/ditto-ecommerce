@@ -124,6 +124,18 @@ export const usersResolvers: IResolvers = {
                 otp: otp,
                 role: 'user',
                 created_at: new Date().toString(),
+                workInfo: {
+                    stoppedWorkTime: null,
+                    startedWorkTime: null,
+                    ratePerHour: 0,
+                    totalWorkingMinutesPerWeek: 0,
+                    totalSalaryToPayWeekly: 0,
+                    advancedSalaryPaid: 0,
+                    isWorking: false,
+                    taskRelated: null
+                },
+                todoTasks: [],
+                logs: []
             };
 
             await db.users.insertOne(user);

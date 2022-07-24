@@ -23,7 +23,6 @@ export const typesResolvers: IResolvers = {
             {db, req}: { db: Database, req: Request }
         ): Promise<ICommonPaginationReturnType> => {
             let types = await db.types.find({}).sort({_id: -1}).toArray();
-            console.log("CREATING", db)
             types = search(types, ['name', 'slug'], searchText);
             const hasMore = types.length > offset + limit;
             return {

@@ -218,7 +218,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           </ProductPreview>
         )}
       </ProductDetailsWrapper>
-       {/*
+
       <RelatedItems>
         <h2>
           <FormattedMessage
@@ -227,13 +227,13 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           />
         </h2>
         <Products
-          type={product.type.toLowerCase()}
+          /* type={product.type.toLowerCase()} */
           deviceType={deviceType}
           loadMore={false}
           fetchLimit={10}
         />
       </RelatedItems>
-      */}
+
       <Footer logo={LogoImage} />
     </>
   );

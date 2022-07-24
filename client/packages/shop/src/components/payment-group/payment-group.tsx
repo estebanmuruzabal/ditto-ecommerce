@@ -70,7 +70,7 @@ const PaymentGroup: React.FunctionComponent<PaymentGroupProps> = ({
     return(
       <Header>
           <SavedCard>
-            <FormattedMessage id="savedCardsId2" defaultMessage=" Tere is no payment methods added" />
+            <FormattedMessage id="noPaymentMethodsAddedId" defaultMessage="There is no payment methods added" />
           </SavedCard>
       </Header>
     )

@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { ADD_ADDRESS, UPDATE_ADDRESS } from 'graphql/mutation/address';
 import { FieldWrapper, Heading } from './address-card.style';
 import { ProfileContext } from 'contexts/profile/profile.context';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 // Shape of form values
 interface FormValues {
@@ -79,6 +79,7 @@ const UpdateAddressTwo = (props: FormikProps<FormValues> & MyFormProps) => {
     region: values.region
   };
   const { state, dispatch } = useContext(ProfileContext);
+  const intl = useIntl();
 
   const [updateAddressMutation] = useMutation(UPDATE_ADDRESS);
   const [addAddressMutation] = useMutation(ADD_ADDRESS);
@@ -127,19 +128,19 @@ const UpdateAddressTwo = (props: FormikProps<FormValues> & MyFormProps) => {
   };
   return (
     <Form>
-      <Heading>{addressItem && addressItem.id ? 'Edit Address' : 'Add New Address'}</Heading>
+      <Heading>{intl.formatMessage({ id: addressItem?.id ? 'editAddressId' : 'addNewAddressId', defaultMessage: 'Address name' })}</Heading>
       <FieldWrapper>
         <TextField
           id="title"
           type="text"
-          placeholder="Enter Title"
+          placeholder={intl.formatMessage({ id: 'addressRefId', defaultMessage: 'Address name' })}
           error={touched.title && errors.title}
           value={values.title}
           onChange={handleChange}
           onBlur={handleBlur}
         />
       </FieldWrapper>
-      <FieldWrapper>
+      {/* <FieldWrapper>
         <TextField
           id="district"
           type="text"
@@ -149,12 +150,12 @@ const UpdateAddressTwo = (props: FormikProps<FormValues> & MyFormProps) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-      </FieldWrapper>
+      </FieldWrapper> */}
       <FieldWrapper>
         <TextField
           id="division"
           type="text"
-          placeholder="Enter Division"
+          placeholder={intl.formatMessage({ id: 'localidadId', defaultMessage: 'Localidad' })}
           error={touched.division && errors.division}
           value={values.division}
           onChange={handleChange}
@@ -165,7 +166,7 @@ const UpdateAddressTwo = (props: FormikProps<FormValues> & MyFormProps) => {
         <TextField
           id="region"
           type="text"
-          placeholder="Enter Region"
+          placeholder={intl.formatMessage({ id: 'provinciaId', defaultMessage: 'Provincia' })}
           error={touched.region && errors.region}
           value={values.region}
           onChange={handleChange}
@@ -176,7 +177,7 @@ const UpdateAddressTwo = (props: FormikProps<FormValues> & MyFormProps) => {
         <TextField
           id="address"
           as="textarea"
-          placeholder="Enter Address"
+          placeholder={intl.formatMessage({ id: 'addressId', defaultMessage: 'Dirección' })}
           error={touched.address && errors.address}
           value={values.address}
           onChange={handleChange}

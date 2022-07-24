@@ -37,6 +37,14 @@ const CartPopUp = dynamic(() => import('features/carts/cart-popup'), {
 
 const CategoryPage: React.FC<any> = ({ deviceType }) => {
   const { query } = useRouter();
+  const router = useRouter();
+
+  const { data: categoriesData, loading: categoriesLoading } = useQuery(GET_CATEGORIES, {
+    variables: { 
+     type: router.query.type
+     },
+  });
+
   const { elRef: targetRef, scroll } = useRefScroll({
     percentOfElement: 0,
     percentOfContainer: 0,
@@ -92,7 +100,7 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
           imageUrl={SHOP_IMAGE_HOST+image}
         />
         <MobileCarouselDropdown>
-          <StoreNav items={CATEGORY_MENU_ITEMS} />
+          {/* if wanna show categories, fix the component to display them <StoreNav items={categoriesData.shopCategories.items} /> */}
           <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
         </MobileCarouselDropdown>
         {homeCardsData.getHomeCards.length > 0 ? (<OfferSection>
@@ -156,7 +164,6 @@ export async function getStaticPaths() {
       searchText: ''
     }
   });
-  console.log(res)
   const paths = res.data.types.items.map((item) => {
     return({
       params: { type: item.slug },

@@ -89,7 +89,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
             <PopoverHandler>
               <div>
                 <CategoryIcon />
-                Select your Category
+                <FormattedMessage id="selectYourCategoryId" defaultMessage="Select your Category" />
               </div>
               <div>
                 <ArrowDropDown />

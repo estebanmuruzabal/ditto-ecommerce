@@ -31,7 +31,7 @@ const Search: React.FC<Props> = ({ onSubmit, ...props  }) => {
   const { data, error, loading } = useQuery(GET_PRODUCTS_SEARCH,
       {
         variables: { 
-          type: query.type || 'grocery',
+          type: query.type || 'definatipos',
           offset: 0,
           limit: 20
         }
@@ -114,7 +114,7 @@ const Search: React.FC<Props> = ({ onSubmit, ...props  }) => {
           id: 'searchPlaceholder',
           defaultMessage: 'Search your products from here',
         })}
-        categoryType={query.type || 'Grocery'}
+        categoryType={query.type || 'definatipos'}
         buttonText={
           intl.formatMessage({
             id: 'searchButtonText',

@@ -11,7 +11,7 @@ const dbPassword: string = process.env.DB_USER_PASSWORD;
 
     console.log(process.env.APP_ENV)
 if (process.env.APP_ENV == 'production') {
-    url = `mongodb+srv://${dbUserName}:${dbPassword}@${process.env.DB_CLUSTER}.mongodb.net/dittodb`;
+    url = `mongodb+srv://estebanmuruzabal:Dallas765@cluster0.cmdfgmr.mongodb.net/test`;
 } else if (process.env.APP_ENV == 'server') {
     url = `mongodb://${dbUserName}:${encodeURIComponent(dbPassword)}@${process.env.DB_CLUSTER}:27017/?authMechanism=DEFAULT&authSource=admin&ssl=false`;
 } else if (process.env.APP_ENV == 'local') {
@@ -20,8 +20,7 @@ if (process.env.APP_ENV == 'production') {
 
 
 export const connectDatabase = async (): Promise<Database> => {
-    console.log("[mongodb]: Starting db init...")
-    console.log(url)
+    console.log("[mongodb]: Starting db init on", url)
     const client = await MongoClient.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -44,6 +43,5 @@ export const connectDatabase = async (): Promise<Database> => {
         home_cards: db.collection('home_cards'),
     };
 
-    console.log('allCollections:', client.db(dbName))
     return allCollections;
 };

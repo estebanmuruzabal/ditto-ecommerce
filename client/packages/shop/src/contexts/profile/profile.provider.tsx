@@ -150,7 +150,7 @@ export const ProfileProvider:  React.FunctionComponent<ProfileProviderProps>  = 
   children,
   initData,
 }) =>  {
-  console.log(initData)
+
   const [state, dispatch] = useReducer(reducer, { ...initData });
  
   return (

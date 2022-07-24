@@ -11,6 +11,13 @@
 
 # Ditto Fashion Documentation
 
+
+here are all the tabs and language settings: client/packages/shop/src/site-settings/site-navigation.ts
+
+# Bugs:
+1- clear session, login, logout, crash on src/pages/index.tsx (63:12) @ IndexPage
+
+
 # Introduction
 
 This is a ecommerce script devided with two parts; one is `Client` and another one is `Server`. In the `Client` we have shop script template develop with `Next.js` and admin script that develop with `React.js`. In the `Server` we have graphql api that develop with `Typescript`, `Apollo Server`, and `MongoDB` as database.

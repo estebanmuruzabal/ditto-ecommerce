@@ -231,6 +231,7 @@ const CheckoutButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: auto;
+}
 `;
 
 const Title = styled.a`
@@ -238,6 +239,15 @@ const Title = styled.a`
   font-size: ${themeGet('fontSizes.base', '15')}px;
   font-weight: ${themeGet('fontWeights.bold', '700')};
   color: ${themeGet('colors.white', '#ffffff')};
+  padding-left: 5px;
+  padding-right: 10px;
+`;
+
+const TitleDisabled = styled.a`
+  font-family: ${themeGet('fonts.body', 'Lato')};
+  font-size: ${themeGet('fontSizes.base', '15')}px;
+  font-weight: ${themeGet('fontWeights.bold', '700')};
+  color: ${themeGet('colors.gray.200', '#f7f7f7')};
   padding-left: 5px;
   padding-right: 10px;
 `;
@@ -264,6 +274,17 @@ const PriceBox = styled.span`
 `;
 
 const NoProductMsg = styled.span`
+  font-family: ${themeGet('fonts.body', 'Lato')};
+  font-size: ${themeGet('fontSizes.base', '15')}px;
+  font-weight: ${themeGet('fontWeights.bold', '700')};
+  color: ${themeGet('colors.text.regular', '#77798c')};
+  display: block;
+  width: 100%;
+  padding: 40px 0;
+  text-align: center;
+`;
+
+const ProductQuantityExceededMsg = styled.span`
   font-family: ${themeGet('fonts.body', 'Lato')};
   font-size: ${themeGet('fontSizes.base', '15')}px;
   font-weight: ${themeGet('fontWeights.bold', '700')};
@@ -394,6 +415,7 @@ export {
   ItemDetails,
   ItemTitle,
   ItemPrice,
+  TitleDisabled,
   ItemWeight,
   TotalPrice,
   DeleteButton,
@@ -406,4 +428,5 @@ export {
   CouponBoxWrapper,
   CouponCode,
   ErrorMsg,
+  ProductQuantityExceededMsg
 };

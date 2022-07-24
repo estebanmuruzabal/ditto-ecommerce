@@ -22,14 +22,14 @@ import { SIGNIN_MUTATION } from 'graphql/mutation/signin';
 import Router, { useRouter } from 'next/router';
 import PhoneInput from 'react-phone-input-2'
 import startsWith from 'lodash.startswith';
-
+import es from 'react-phone-input-2/lang/es.json'
 
 export default function SignInModal() {
   const router = useRouter();
   const intl = useIntl();
   const { authDispatch } = useContext<any>(AuthContext);
-  const [phone, setPhone] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [phone, setPhone] = React.useState(process.env.ENV === 'development' ? '+17863847064' : '+17863847064');
+  const [password, setPassword] = React.useState('123456');
 
   const toggleSignUpForm = () => {
     authDispatch({
@@ -109,7 +109,10 @@ export default function SignInModal() {
               }}
               containerStyle={{textAlign: "left"}}
               inputStyle={{backgroundColor: "#F7F7F7", height: "48px", marginBottom: "10px", width: "100%"}}
-              country={'bd'}
+              onlyCountries={['ar']}
+              localization={es}
+              country={'ar'}
+              masks={{ar: '(...) ...-....'}}
               value={phone}
               onChange={handlePhoneChange}
           />

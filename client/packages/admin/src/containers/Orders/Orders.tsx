@@ -23,6 +23,7 @@ import NoResult from '../../components/NoResult/NoResult';
 import Button from "../../components/Button/Button";
 import ActionWrapper from "../Orders/ActionWrapper";
 import {StyledBodyCell} from "../Types/Types.style";
+import { useIntl } from 'react-intl';
 
 const GET_ORDERS = gql`
     query GetOrders(
@@ -119,10 +120,10 @@ const nextButtonDisabledStyles = {
     color: '#6f6f6f',
     backgroundColor: '#d8d8d8'
 };
-
-
+const intl = useIntl();
+const pendingLabel = intl.formatMessage({ id: 'pendingStatusId', defaultMessage: 'Pending' });
 const statusSelectOptions = [
-    {value: 'Pending', label: 'Pending'},
+    {value: 'Pending', label: pendingLabel},
     {value: 'Received', label: 'Received'},
     {value: 'Processing', label: 'Processing'},
     {value: 'InTransit', label: 'InTransit'},
@@ -132,7 +133,7 @@ const statusSelectOptions = [
 ];
 
 export default function Orders() {
-
+    
     const [useCss, theme] = themedUseStyletron();
     const sent = useCss({
         ':before': {

@@ -17,7 +17,7 @@ import {
 } from './order-details.style';
 import Progress from 'components/progress-box/progress-box';
 import { CURRENCY } from 'utils/constant';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {Title} from "../order.style";
 
 type OrderDetailsProps = {
@@ -53,7 +53,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
   deliveryMethod,
   ref
 }) => {
-
+  const intl = useIntl();
   const handleInvocie = () => {
     Router.push({
       pathname: '/order-received',
@@ -68,14 +68,14 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         <DeliveryAddress>
           <h3>
             <FormattedMessage
-              id="deliveryAddressTitle"
+              id="deliveryMethodTitle"
               defaultMessage="Delivery Method"
             />
           </h3>
           <Contact>{deliveryMethod.name}</Contact>
           <h3>
             <FormattedMessage
-              id="deliveryAddressTitle"
+              id="contactNumberTitle"
               defaultMessage="Contact Number"
             />
           </h3>
@@ -137,7 +137,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         />
      </OrderTableWrapper>
       <StyledLink onClick={handleInvocie}>
-        Get Invoice
+        {intl.formatMessage({ id: 'getInvoiceId', defaultMessage: 'Get invoice' })}
       </StyledLink>
      </>
   );

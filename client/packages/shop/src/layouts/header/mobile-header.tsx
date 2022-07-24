@@ -18,6 +18,7 @@ import { SearchIcon } from 'assets/icons/SearchIcon';
 import { LongArrowLeft } from 'assets/icons/LongArrowLeft';
 import Logo from 'layouts/logo/logo';
 
+import LanguageSwitcher from './menu/language-switcher/language-switcher';
 import { isCategoryPage } from '../is-home-page';
 import useDimensions from 'utils/useComponentSize';
 
@@ -78,6 +79,8 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className }) => {
         <LogoWrapper>
           <Logo imageUrl={LogoImage} alt="shop logo" />
         </LogoWrapper>
+
+        <LanguageSwitcher />
 
         {isHomePage ? (
           <SearchWrapper

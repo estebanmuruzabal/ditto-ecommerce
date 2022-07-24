@@ -1,8 +1,15 @@
 require("dotenv").config();
+import * as bcrypt from "bcrypt";
+import shortid from "shortid";
 
 import {ObjectId} from 'mongodb';
 import {connectDatabase} from "../src/database";
-import {IListings} from "../src/lib/types";
+import {IListings, IType, IUser} from "../src/lib/types";
+import { slugify } from "../src/lib/utils/slugify";
+
+const hashPassword = async (password: string) => {
+    return await bcrypt.hash(password, 10)
+};
 
 const seed = async () => {
     try {
@@ -51,9 +58,65 @@ const seed = async () => {
             }
         ];
 
+        const generateOTPCode = () => {
+            const digits = '0123456789';
+            const otpLength = 6;
+            let otp = '';
+            for(let i=1; i<=otpLength; i++)
+            {
+                const index = Math.floor(Math.random()*(digits.length));
+                otp = otp + digits[index];
+            }
+            return otp;
+        }
+
+        const otp = generateOTPCode();
+        const user: IUser = {
+            _id: new ObjectId(),
+            name: 'Esteban Muruzabal',
+            email: 'estebanmuruzabal@gmail.com',
+            password: await hashPassword('123456'),
+            phones: [{
+                id: new Date().toUTCString(),
+                number: '+17863847064',
+                status: true,
+                is_primary: true
+            }],
+            delivery_address: [{
+                id: 'string',
+                title: 'string',
+                address: 'string',
+                division: 'string',
+                district: 'string',
+                region: 'string',
+                is_primary: true
+            }],
+            otp: otp,
+            role: 'user',
+            created_at: new Date().toString(),
+        };
+
+        const typeData: IType = {
+            _id: new ObjectId(),
+            name: 'grocery',
+            slug: slugify('grocery'),
+            image: '',
+            icon: '',
+            home_title: '',
+            home_subtitle: '',
+            meta_title: '',
+            meta_keyword: '',
+            meta_description: '',
+            created_at: new Date().toUTCString(),
+        };
+
+        const insertResult = await db.types.insertOne(typeData);
+
         for (const listing of listings) {
             await db.listings.insertOne(listing);
         }
+
+        await db.users.insertOne(user);
 
         console.log('[seed]: success')
     } catch {

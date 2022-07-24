@@ -9,9 +9,10 @@ import cors from "cors";
 import path from "path";
 
 const mount = async (app: Application) => {
+    const hostname = 'localhost';
+    // const hostname = '0.0.0.0';
     // mongodb connection
     const db = await connectDatabase();
-    console.log(db)
     // apollo server
     const server = new ApolloServer({
         typeDefs,
@@ -33,8 +34,12 @@ const mount = async (app: Application) => {
         },
     });
 
-    app.listen(process.env.PORT);
-    console.log(`[app]: http://localhost:${process.env.PORT}`);
+    const port = process.env.PORT;
+    app.listen(7000, hostname, () => {
+        console.log(`Server running at http://${hostname}:${port}`)
+    });
+    console.log(`[app]: http://${hostname}:${process.env.PORT}`);
+    
 };
 
 mount(express());

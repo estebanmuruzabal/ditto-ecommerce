@@ -64,7 +64,7 @@ import { NoCartBag } from 'assets/icons/NoCartBag';
 
 import Sticky from 'react-stickynode';
 import { ProfileContext } from 'contexts/profile/profile.context';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCart } from 'contexts/cart/use-cart';
 import { APPLY_COUPON } from 'graphql/mutation/coupon';
 import { useLocale } from 'contexts/language/language.provider';
@@ -87,7 +87,7 @@ type CartItemProps = {
 const OrderItem: React.FC<CartItemProps> = ({ product }) => {
   const { id, quantity, title, name, unit, price, salePrice } = product;
   const displayPrice = salePrice ? salePrice : price;
-
+  const intl = useIntl();
   return (
     <Items key={id}>
       <Quantity>{quantity}</Quantity>
@@ -125,7 +125,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     isRestaurant,
     toggleRestaurant,
   } = useCart();
-
+  const intl = useIntl();
 
   let cartProduct= null;
 
@@ -191,12 +191,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     setHasCoupon(false);
     setSubmitResult({
       ...submitResult,
-      delivery_address: `Title: ${selectedAddress && selectedAddress.title}, 
-      District: ${selectedAddress && selectedAddress.district},  
-      Division: ${selectedAddress && selectedAddress.division},  
-      Region: ${selectedAddress && selectedAddress.region},  
-      Division: ${selectedAddress && selectedAddress.address}
-      `,
+      delivery_address: `${selectedAddress && selectedAddress.title}) -   
+      ${selectedAddress && selectedAddress.address}, ${selectedAddress && selectedAddress.district}, ${selectedAddress && selectedAddress.region}`,
       products: cartProduct,
       contact_number: selectedContact.number
     })
@@ -338,6 +334,13 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     setCouponCode(e.currentTarget.value);
   };
 
+  const setErrorFor5Sec = (messageId) => {
+    const a = <FormattedMessage id={messageId} />;
+      setCheckoutError('a');
+      setTimeout(() => setCheckoutError(null), 1500)
+      return null;
+  };
+
   const handleSubmit = async () => {
 
 
@@ -369,20 +372,18 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     console.log('discount_amount = ', typeof(discount_amount))
     console.log('product-price = ', products)
 
-    if(
-      !customer_id || 
-      !contact_number || 
-      !delivery_address || 
-      !delivery_method_id ||  
-      !payment_option_id ||
-      !products
-    ){
+    if (!delivery_address) setErrorFor5Sec('checkoutDeliveryAddressInvalid');
+    if (!delivery_method_id) setErrorFor5Sec('checkoutDeliveryMethodInvalid');
+    if (!contact_number) setErrorFor5Sec('checkoutContactNumberInvalid');
+    if (!payment_option_id) setErrorFor5Sec('checkoutPaymentMethodInvalid');
+
+    if (!customer_id || !products) {
       setCheckoutError('Please place a valid order!');
       return null;
     }
     
 
-    if (confirm('Are you sure? You want to place this order?')) {
+    // if (confirm('Are you sure? You want to place this order?')) {
         const {errors: orderCreateError} = await setOrderMutation({
             variables: {
                 input: {
@@ -415,77 +416,19 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
         if (orderCreateError) {
             setOrderError(orderCreateError[0].message)
         }
-    }
+    // }
 
   };
 
+  const pickUpOptionIds = deliveryMethods.map(deliveryMethod => {
+    return deliveryMethod.name.toLowerCase().includes('busc') ? deliveryMethod.id : null;
+  });
+  console.log(submitResult, deliveryMethods, pickUpOptionIds)
   return (
     <form>
       <CheckoutWrapper>
         <CheckoutContainer>
           <CheckoutInformation>
-            {/* DeliveryAddress */}
-            <InformationBox>
-              <Heading>
-                <FormattedMessage
-                  id='checkoutDeliveryAddress'
-                  defaultMessage='Delivery Address'
-                />
-              </Heading>
-              <ButtonGroup>
-                <RadioGroupTwo
-                  items={delivery_address}
-                    component={(item: any, index: any) => (
-                      <RadioCardTWO 
-                      id={index}
-                      key={index}
-                      address={item.address}
-                      district={item.district}
-                      division={item.division}
-                      title={item.title}
-                      region = {item.region}
-                      name='address'
-                      isChecked={item.is_primary === true}
-                      onClick={() => setSubmitResult({
-                        ...submitResult,
-                        delivery_address:  `Title: ${item.title}, 
-                        District: ${item.district},  
-                        Division: ${item.division},  
-                        Region: ${item.region},  
-                        Division: ${item.address}
-                        `,
-                        products: cartProduct
-                      })}
-                      onChange={() =>handlePrimary(item, 'address')}
-                      onEdit={() => handleEditDelete(item, index, 'edit', 'address')}
-                      onDelete={() =>
-                        handleEditDelete(item, index, 'delete', 'address')
-                      }
-                    />
-                  )}
-                  secondaryComponent={
-                    <Button
-                      className='addButton'
-                      variant='text'
-                      type='button'
-                      onClick={() =>
-                        handleModal(UpdateAddressTwo,
-                          {
-                            item:{},
-                            id
-                          },
-                          'add-address-modal')
-                      }
-                    >
-                      <IconWrapper>
-                        <Plus width='10px' />
-                      </IconWrapper>
-                      <FormattedMessage id='addNew' defaultMessage='Add New' />
-                    </Button>
-                  }
-                />
-              </ButtonGroup>
-            </InformationBox>
 
             {/* DeliverySchedule */}
             <InformationBox>
@@ -496,35 +439,104 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                     defaultMessage='Select Your Delivery Schedule'
                   />
                 </Heading>
-                <RadioGroupTwo
-                  items={deliveryMethods}
-                  component={(item: any, index: any) => (
-                    <RadioCard
-                      id={item.id}
-                      key={item.id}
-                      title={item.name}
-                      content={item.details}
-                      name='schedule'
-                      checked={item.type === 'primary'}
-                      withActionButtons={false}
-                      onClick={() => setSubmitResult({
-                        ...submitResult,
-                        delivery_method_id: item.id, 
-                        products: cartProduct
-                      })}
-                      onChange={() =>{
-                        return(dispatch({
-                          type: 'SET_PRIMARY_SCHEDULE',
-                          payload: item.id.toString(),
-                        }))
+                { deliveryMethods?.length ? (
+                  <RadioGroupTwo
+                    items={deliveryMethods}
+                    component={(item: any, index: any) => (
+                      <RadioCard
+                        id={item.id}
+                        key={item.id}
+                        title={item.name}
+                        content={item.details}
+                        name='schedule'
+                        checked={item.type === 'primary'}
+                        withActionButtons={false}
+                        onClick={() => setSubmitResult({
+                          ...submitResult,
+                          delivery_method_id: item.id, 
+                          products: cartProduct
+                        })}
+                        onChange={() =>{
+                          return(dispatch({
+                            type: 'SET_PRIMARY_SCHEDULE',
+                            payload: item.id.toString(),
+                          }))
+                          }
                         }
-                      }
-                    />
-                  )}
-                />
+                      />
+                    )}
+                  />
+                ) : 
+                  (<FormattedMessage
+                    id='noDeliveryOptionsDefinedId'
+                    defaultMessage='No hay métodos de envios por el momento'
+                  />)
+                }
               </DeliverySchedule>
             </InformationBox>
 
+            {/* DeliveryAddress */}
+            { !pickUpOptionIds.includes(submitResult.delivery_method_id) && (
+              <InformationBox>
+                <Heading>
+                  <FormattedMessage
+                    id='checkoutDeliveryAddress'
+                    defaultMessage='Delivery Address'
+                  />
+                </Heading>
+                <ButtonGroup>
+                  <RadioGroupTwo
+                    items={delivery_address}
+                      component={(item: any, index: any) => (
+                        <RadioCardTWO 
+                        id={index}
+                        key={index}
+                        address={item.address}
+                        district={item.district}
+                        division={item.division}
+                        title={item.title}
+                        region = {item.region}
+                        name='address'
+                        isChecked={item.is_primary === true}
+                        onClick={() => setSubmitResult({
+                          ...submitResult,
+                          delivery_address:  `${item.title} -
+                          ${item.address}, ${item.region}, ${item.district}
+                          `,
+                          products: cartProduct
+                        })}
+                        onChange={() =>handlePrimary(item, 'address')}
+                        onEdit={() => handleEditDelete(item, index, 'edit', 'address')}
+                        onDelete={() =>
+                          handleEditDelete(item, index, 'delete', 'address')
+                        }
+                      />
+                    )}
+                    secondaryComponent={
+                      <Button
+                        className='addButton'
+                        variant='text'
+                        type='button'
+                        onClick={() =>
+                          handleModal(UpdateAddressTwo,
+                            {
+                              item:{},
+                              id
+                            },
+                            'add-address-modal')
+                        }
+                      >
+                        <IconWrapper>
+                          <Plus width='10px' />
+                        </IconWrapper>
+                        <FormattedMessage id='addNew' defaultMessage='Add New' />
+                      </Button>
+                    }
+                  />
+                </ButtonGroup>
+              </InformationBox>
+            )}
+            
             {/* Contact number */}
             <InformationBox>
               <Heading>
@@ -540,7 +552,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                     <RadioCard
                       id={index}
                       key={index}
-                      title={item.is_primary?'Primary' : 'Secondary'}
+                      title={item.is_primary ? intl.formatMessage({ id: 'primaryId', defaultMessage: 'Primary' }) : intl.formatMessage({ id: 'secundaryId', defaultMessage: 'Secondary' })}
                       content={item.number}
                       checked={item.is_primary === true}
                       onChange={() =>handlePrimary(item, 'contact')}

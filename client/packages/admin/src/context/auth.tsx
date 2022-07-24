@@ -28,6 +28,8 @@ const AUTH_LOGIN = gql`
 type AuthProps = {
   isAuthenticated: boolean;
   authenticate: Function;
+  error: string;
+  user: any;
   signout: Function;
 };
 
@@ -45,15 +47,20 @@ const AuthProvider = (props: any) => {
       {
         onCompleted: (data) => {
           makeAuthenticated(true);
+          console.log("userdata", data)
+          setUser(data);
           localStorage.setItem('admin_access_token', `${data.login.access_token}`);
         },
         onError: (error) => {
           makeAuthenticated(false);
+          setError(error.toString());
           console.error("Error creating a post", error)
         },
       });
 
   const [isAuthenticated, makeAuthenticated] = React.useState(isValidToken());
+  const [user, setUser] = React.useState({});
+  const [error, setError] = React.useState(null);
 
   function authenticate({ phone, password }, cb) {
     let phoneNumber: string = phone.toString();
@@ -70,6 +77,8 @@ const AuthProvider = (props: any) => {
       value={{
         isAuthenticated,
         authenticate,
+        error,
+        user,
         signout,
       }}
     >

@@ -68,7 +68,6 @@ const CreateOrUpdateContact: React.FC<Props> = ({ item }) => {
     }
    
   };
-  
   return (
     <Formik
       initialValues={initialValues}
@@ -82,7 +81,7 @@ const CreateOrUpdateContact: React.FC<Props> = ({ item }) => {
       }: FormikProps<FormValues>) => (
         <Form>
           <Heading>
-            {ContactItem ? 'Edit Contact' : 'Add New Contact'}
+            {ContactItem ? <FormattedMessage id="editContactId" defaultMessage="" /> : <FormattedMessage id="addNewContactId" defaultMessage="" />}
           </Heading>
           <FieldWrapper>
             <MaskedInput

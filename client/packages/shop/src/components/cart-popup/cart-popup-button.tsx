@@ -19,6 +19,7 @@ type CartButtonProps = {
   pricePrefix?: string;
   className?: string;
   onClick?: (e: any) => void;
+  btnText: string;
 };
 
 const CartPopupButton: React.FC<CartButtonProps> = ({
@@ -74,9 +75,10 @@ export const BoxedCartButtonV2: React.FC<CartButtonProps> = ({
   style,
   onClick,
   className,
+  btnText
 }) => (
   <CartPopupBoxButtonV2 style={style} onClick={onClick} className={className}>
-      Buy Now
+      {btnText}
   </CartPopupBoxButtonV2>
 );
 

@@ -9,7 +9,7 @@ import CartPopupButton, {
 } from 'components/cart-popup/cart-popup-button';
 import { CURRENCY } from 'utils/constant';
 import { CartSlidePopup } from './cart.style';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCart } from 'contexts/cart/use-cart';
 
 const CartPopupStyle = createGlobalStyle`
@@ -29,7 +29,7 @@ const CartPopupStyle = createGlobalStyle`
       background: ${themeGet('colors.white', '#ffffff')};
       overflow: initial !important;
       transform-origin: bottom center;
-    }
+    },
   }
 `;
 
@@ -67,7 +67,7 @@ const CartPopUp: React.FC<CartProps> = ({
   };
 
   let cartSliderClass = isOpen === true ? 'cartPopupFixed' : '';
-
+  const intl = useIntl();
   return (
     <>
       {mobile ? (
@@ -76,6 +76,7 @@ const CartPopUp: React.FC<CartProps> = ({
           <CartPopupButton
             className='product-cart'
             itemCount={cartItemsCount}
+            btnText={intl.formatMessage({ id: 'buyNowId', defaultMessage: 'Buy now' })}
             itemPostfix={
               cartItemsCount > 1 ? (
                 <FormattedMessage id='cartItems' defaultMessage='items' />
@@ -99,6 +100,7 @@ const CartPopUp: React.FC<CartProps> = ({
           <BoxedCartButtonV2
             className='product-cart'
             itemCount={cartItemsCount}
+            btnText={intl.formatMessage({ id: 'buyNowId', defaultMessage: 'Buy now' })}
             itemPostfix={
               cartItemsCount > 1 ? (
                 <FormattedMessage id='cartItems' defaultMessage='items' />

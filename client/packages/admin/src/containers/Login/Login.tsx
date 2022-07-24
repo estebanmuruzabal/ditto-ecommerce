@@ -18,8 +18,8 @@ import {useQuery} from "@apollo/react-hooks";
 import {ADMIN_IMAGE_HOST} from "../../helpers/images-path";
 
 const initialValues = {
-    phone: '',
-  password: '',
+    phone: '+17863847064',
+  password: '123456',
 };
 const GET_SETTING = gql`
     query GetSetting {
@@ -63,7 +63,7 @@ export default () => {
 
   let history = useHistory();
   let location = useLocation();
-  const { authenticate, isAuthenticated } = useContext(AuthContext);
+  const { authenticate, isAuthenticated, error: signinErrors } = useContext(AuthContext);
   if (isAuthenticated) return <Redirect to={{ pathname: '/' }} />;
 
   let { from } = (location.state as any) || { from: { pathname: '/' } };
@@ -72,7 +72,7 @@ export default () => {
       history.replace(from);
     });
   };
-  console.log(error)
+
   return (
     <Wrapper>
       <FormWrapper>
@@ -130,6 +130,9 @@ export default () => {
               >
                 Submit
               </Button>
+              {typeof signinErrors === 'string' && signinErrors?.length && (
+                <Error>{signinErrors}</Error>
+              )}
             </Form>
           )}
           validationSchema={getLoginValidationSchema}

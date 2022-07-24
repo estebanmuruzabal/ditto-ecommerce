@@ -3,7 +3,7 @@ import { plainToClass } from 'class-transformer';
 
 const loadCategories = (): Category[] => {
   return plainToClass(Category, [
-    {
+    /* {
       id: 1,
       title: 'Fruits & Vegetables',
       slug: 'fruits-and-vegetables',
@@ -1231,7 +1231,7 @@ const loadCategories = (): Category[] => {
       icon: '',
       itemCount: 20,
       children: [],
-    },
+    }, */
   ]);
 };
 

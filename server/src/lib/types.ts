@@ -38,6 +38,20 @@ export interface IUser {
     otp?: string;
     role?: string;
     created_at: string;
+    workInfo?: IWorkInfo;
+    todoTasks?: Array<any>;
+    logs?: Array<any>;
+}
+
+export interface IWorkInfo {
+    stoppedWorkTime: string | null;
+    startedWorkTime: string | null;
+    ratePerHour: number | null;
+    totalWorkingMinutesPerWeek: number | null;
+    totalSalaryToPayWeekly: number | null;
+    advancedSalaryPaid: number | null;
+    isWorking: boolean;
+    taskRelated: string | null;
 }
 
 export interface IUserAuth {

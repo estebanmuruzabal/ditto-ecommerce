@@ -187,12 +187,6 @@ export const ProductCartBtn = styled.div`
   }
 
   .cart-button {
-    font-family: ${themeGet('fonts.body', 'Lato')};
-    font-size: ${themeGet('fontSizes.base', '15')}px;
-    font-weight: ${themeGet('fontWeights.bold', '700')};
-    color: ${themeGet('colors.primary.regular', '#009e7f')};
-    height: 36px;
-    border-radius: 4rem;
 
     .btn-icon {
       margin-right: 5px;

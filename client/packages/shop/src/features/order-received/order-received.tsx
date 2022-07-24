@@ -1,8 +1,10 @@
 import React,  { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
+import moment from 'moment';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_ORDERS } from 'graphql/query/order.query';
+import { CURRENCY } from 'utils/constant';
 import ErrorMessage from 'components/error-message/error-message';
 import OrderReceivedWrapper, {
   OrderReceivedContainer,
@@ -17,7 +19,7 @@ import OrderReceivedWrapper, {
   ListTitle,
   ListDes,
 } from './order-received.style';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 type OrderReceivedProps = {
   data?: any;
@@ -26,7 +28,8 @@ type OrderReceivedProps = {
 };
 
 const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
-  const router = useRouter()
+  const router = useRouter();
+  const intl = useIntl();
   const { data, error, loading } = useQuery(GET_ORDERS);
   if (loading) {
     return <ErrorMessage message={'Loading...'} />
@@ -47,17 +50,18 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
       window.print()
     }
   }
-  
+
+  const dateAndTime = `${moment(myOrder.datetime).format('MM/DD/YY')}, ${moment(myOrder.datetime).format('hh:mm A')}`;
   return (
     <OrderReceivedWrapper>
       <OrderReceivedContainer>
-        <Link href="/">
+        <Link href="/profile">
           <a className="home-btn">
-            <FormattedMessage id="backHomeBtn" defaultMessage="Back to Home" />
+            <FormattedMessage id="backProfileBtn" defaultMessage="Back to Profile" />
           </a>
         </Link>
         <span onClick={printHandler} className="print-btn">
-          Print Invoice
+          <FormattedMessage id="printInvoiceBtn" defaultMessage="Print Invoice" />
         </span>
 
         <OrderInfo>
@@ -82,14 +86,14 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               <Text bold className="title">
                 <FormattedMessage id="orderDateText" defaultMessage="Date" />
               </Text>
-              <Text>{myOrder.datetime.split('2020').shift()}</Text>
+              <Text>{dateAndTime}</Text>
             </InfoBlock>
 
             <InfoBlock>
               <Text bold className="title">
                 <FormattedMessage id="totalText" defaultMessage="Total" />
               </Text>
-              <Text>{myOrder.total}</Text>
+              <Text>{CURRENCY}{myOrder.total}</Text>
             </InfoBlock>
 
             <InfoBlock>
@@ -127,7 +131,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
             </ListTitle>
             <ListDes>
-              <Text>6 Items</Text>
+              <Text>{myOrder.order_products?.length} </Text>
             </ListDes>
           </ListItem>
 
@@ -135,7 +139,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
             <ListTitle>
               <Text bold>
                 <FormattedMessage
-                  id="orderTimeText"
+                  id="orderMethodText"
                   defaultMessage="Order Method"
                 />
               </Text>
@@ -176,7 +180,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
             </ListTitle>
             <ListDes>
-              <Text>{myOrder.sub_total}</Text>
+              <Text>{CURRENCY}{myOrder.sub_total}</Text>
             </ListDes>
           </ListItem>
 
@@ -201,7 +205,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
             </ListTitle>
             <ListDes>
-              <Text>{myOrder.total}</Text>
+              <Text>{CURRENCY}{myOrder.total}</Text>
             </ListDes>
           </ListItem>
         </TotalAmount>

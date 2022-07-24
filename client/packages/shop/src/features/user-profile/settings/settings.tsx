@@ -32,7 +32,7 @@ import UpdateContact from 'components/contact-card/contact-card';
 import { Button } from 'components/button/button';
 import { Input } from 'components/forms/input';
 import { UPDATE_ME } from 'graphql/mutation/me';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Label } from 'components/forms/label';
 import { ItemCount } from 'components/cart-popup/cart-popup.style';
 
@@ -61,7 +61,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   const [setprimaryPhoneNumberMutation] = useMutation(SETPRIMARY_PHONENUMBER);
   const [setprimaryAddressMutation] = useMutation(SETPRIMARY_ADDRESS);
   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
-
+  const intl = useIntl();
  
 
   const { 
@@ -201,7 +201,6 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
       setPasswordChangeMsg('Loadding...')
   };
 
-
   return (
     <SettingsForm>
       <SettingsFormContent>
@@ -283,10 +282,10 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                     <RadioCard
                       id={index}
                       key={index}
-                      title={item.is_primary?'Primary' : 'Secondary'}
+                      title={item.is_primary ? intl.formatMessage({ id: 'primaryId', defaultMessage: 'Primary' }) : intl.formatMessage({ id: 'secundaryId', defaultMessage: 'Secondary' })}
                       content={item.number}
                       checked={item.is_primary === true}
-                      onChange={() =>handlePrimary(item, 'contact')}
+                      onChange={() => handlePrimary(item, 'contact')}
                       name='contact'
                       onEdit={() => handleEditDelete(item, index, 'edit', 'contact')}
                       onDelete={() =>
@@ -370,7 +369,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                       }
                     >
                       <FormattedMessage
-                        id='addAddressBtn' 
+                        id={delivery_address?.length === 3 ? "fullDeliveryAddressesMsg" : "addAddressBtn"}
                         defaultMessage='Add Address' 
                       />
                     </Button>
@@ -396,21 +395,21 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
           <Col xs={12} sm={2} md={2} lg={3}>
             <Input
               type='password'
-              label='Old Password'
-              placeholder='Old Password'
+              /* label='Old Password' */
+              placeholder={intl.formatMessage({ id: 'oldPasswordId', defaultMessage: 'Old password' })}
               name='oldPassword'
               value={ state.oldPassword || '' }
               onChange={handleChange}
               backgroundColor='#F7F7F7'
               height='48px'
-              // intlInputLabelId="profileNameField"
+              /* intlInputLabelId="profileNameField" */
             />
           </Col>
           <Col xs={12} sm={2} md={2} lg={3}>
             <Input
               type='password'
               label='New Password'
-              placeholder='New Password'
+              placeholder={intl.formatMessage({ id: 'newPasswordId', defaultMessage: 'New password' })}
               name='newPassword'
               value={ state.newPassword || '' }
               onChange={handleChange}
@@ -423,8 +422,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
             <Input
               type='password'
               name='confirmPassword'
-              label='Confirm Password'
-              placeholder='Confirm Password'
+              placeholder={intl.formatMessage({ id: 'confirmPasswordId', defaultMessage: 'Confirm password' })}
               value={ state.confirmPassword || '' }
               onChange={handleChange}
               backgroundColor='#F7F7F7'

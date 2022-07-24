@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import * as Yup from 'yup';
 import { withFormik, FormikProps, Form } from 'formik';
 import { closeModal } from '@redq/reuse-modal';
@@ -8,7 +8,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { UPDATE_ADDRESS } from 'graphql/mutation/address';
 import { FieldWrapper, Heading } from './address-card.style';
 import { ProfileContext } from 'contexts/profile/profile.context';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import Loader from 'components/loader/loader';
 
 // Shape of form values
 interface FormValues {
@@ -62,26 +63,31 @@ const UpdateAddress = (props: FormikProps<FormValues> & MyFormProps) => {
     info: values.info,
   };
   const { state, dispatch } = useContext(ProfileContext);
-
+  const [loading, setLoading] = useState(false);
   const [addressMutation, { data }] = useMutation(UPDATE_ADDRESS);
+  const intl = useIntl();
 
   const handleSubmit = async () => {
     if (isValid) {
       const addressData = await addressMutation({
         variables: { addressInput: JSON.stringify(addressValue) },
       });
+      
+      setLoading(true);
       dispatch({ type: 'ADD_OR_UPDATE_ADDRESS', payload: addressValue });
       closeModal();
+      setLoading(false);
     }
   };
+
   return (
     <Form>
-      <Heading>{item && item.id ? 'Edit Address' : 'Add New Address'}</Heading>
+      <Heading>{<Heading>{intl.formatMessage({ id: item?.id ? 'editAddressId' : 'addNewAddressId', defaultMessage: 'Address name' })}</Heading>}</Heading>
       <FieldWrapper>
         <TextField
           id="name"
           type="text"
-          placeholder="Enter Title"
+          placeholder={intl.formatMessage({ id: 'addressRefId', defaultMessage: 'Address name' })}
           error={touched.name && errors.name}
           value={values.name}
           onChange={handleChange}
@@ -105,6 +111,9 @@ const UpdateAddress = (props: FormikProps<FormValues> & MyFormProps) => {
         onClick={handleSubmit}
         type="submit"
         style={{ width: '100%', height: '44px' }}
+        loader={<Loader />}
+        isDisabled={loading}
+        isLoading={loading}
       >
         <FormattedMessage id="savedAddressId" defaultMessage="Save Address" />
       </Button>

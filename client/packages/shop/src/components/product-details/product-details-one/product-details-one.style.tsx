@@ -251,9 +251,9 @@ export const ProductCartBtn = styled.div`
 `;
 
 export const ButtonText = styled.span`
-  @media (max-width: 767px) {
+  /* @media (max-width: 767px) {
     display: none;
-  }
+  } */
 `;
 
 export const ProductMeta = styled.div`

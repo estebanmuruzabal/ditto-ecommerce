@@ -257,7 +257,7 @@ const Footer: React.FC<Props> = ({ logo }) =>{
   const [activeMenu, setActiveMenu] = React.useState(
     initialMenu ?? CATEGORY_MENU_ITEMS[0]
   );
-
+  
   return(
     <FooterWrapper>
         <div className="footer-top">
@@ -288,12 +288,12 @@ const Footer: React.FC<Props> = ({ logo }) =>{
               <Logo
                 imageUrl={logo}
                 alt={'Shop Logo'}
-                onClick={() => setActiveMenu(CATEGORY_MENU_ITEMS[0])}
+                onClick={() => setActiveMenu(CATEGORY_MENU_ITEMS[1])}
               />
             </div>
             <p className="footer-entry">
-              Mehadi-Fashion is an online shop in Dhaka, Bangladesh. 
-              We believe time is valuable to our fellow Dhaka 
+              Ditto is an online shop in Resistencia Chaco Argentina. 
+              We believe time is valuable to our fellow Resistencia 
               residents, and that they should not 
               have to waste hours in traffic, brave 
               bad weather and wait in line just to 
@@ -346,21 +346,21 @@ const Footer: React.FC<Props> = ({ logo }) =>{
             </div>
           </div>
           <div className="footer-other">
-            <div className="footer-mobile-apps">
+            {/* <div className="footer-mobile-apps">
               <a href="#"><img src={GooglePlayStore} alt="" /></a>
               <a href="#"><img src={AppStore} alt="" /></a>
-            </div>
+            </div> */}
             <div className="footer-phone-email">
               <div className="footer-phone">
                 <img src={PhoneIcon} alt="" />
-                <h2>0188-1234567</h2>
+                <h2>3624-951926</h2>
               </div>
               <p className="footer-email">or email 
-                <strong> support@mehadifashion.com</strong>
+                <strong> flyingchickenco@gmail.com</strong>
               </p>
             </div>
             <ul className="footer-social">
-              <li>
+              {/* <li>
                 <a href=""><img src={Facebook} alt="" /></a>
               </li>
               <li>
@@ -368,9 +368,9 @@ const Footer: React.FC<Props> = ({ logo }) =>{
               </li>
               <li>
                 <a href=""><img src={Twitter} alt="" /></a>
-              </li>
+              </li> */}
               <li>
-                <a href=""><img src={Instagram} alt="" /></a>
+                <a href="https://www.instagram.com/flying.chicken.farm"><img src={Instagram} alt="" /></a>
               </li>
             </ul>
           </div>
